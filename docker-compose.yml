@@ -14,20 +14,20 @@ services:
     networks:
       - backend
 
-  redis:
-    image: redis
-    container_name: redis
-    restart: unless-stopped
-    ports:
-      - ${REDIS__PORT}:${REDIS__PORT}
-    networks:
-      - backend
+  # redis: 
+  #   image: redis
+  #   container_name: redis
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${REDIS__PORT}:${REDIS__PORT}
+  #   networks:
+  #     - backend
 
-  backend:
+  backend: 
     build:
       context: .
       dockerfile: Dockerfile
-    command: uvicorn app.main:app --host ${BACKEND_SERVER__HOST} --port ${BACKEND_SERVER__PORT} --workers ${BACKEND_SERVER__WORKERS} --reload
+    command: make run_migr
     tty: true
     env_file:
       - .env
@@ -35,7 +35,7 @@ services:
       - "${BACKEND_SERVER__PORT}:${BACKEND_SERVER__PORT}"
     depends_on:
       - postgres
-      - redis
+      # - redis 
     networks:
       - backend
 

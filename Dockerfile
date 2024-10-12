@@ -9,6 +9,8 @@ RUN apt-get update
 # Отключение создания виртуальной среды Poetry
 ENV POETRY_VIRTUALENVS_CREATE=false
 
+RUN apt install make
+
 WORKDIR /app
 COPY backend/pyproject.toml .
 
