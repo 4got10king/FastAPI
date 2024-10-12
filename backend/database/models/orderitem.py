@@ -4,7 +4,6 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from database.db_metadata import Base
 
 from app.schemas.orderitem.orderitem import OrderItemResponseModel
-from database.models.product import ProductORM
 
 
 class OrderItemORM(Base):
