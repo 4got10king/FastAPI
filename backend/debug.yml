@@ -13,14 +13,14 @@ services:
     networks:
       - backend_debug
 
-  redis:
-    image: redis
-    container_name: redis_debug
-    restart: unless-stopped
-    ports:
-        - ${REDIS__PORT}:${REDIS__PORT}
-    networks:
-      - backend_debug
+  # redis:
+  #   image: redis
+  #   container_name: redis_debug
+  #   restart: unless-stopped
+  #   ports:
+  #       - ${REDIS__PORT}:${REDIS__PORT}
+  #   networks:
+  #     - backend_debug
 
 
 

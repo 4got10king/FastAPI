@@ -1,19 +1,22 @@
-from sqlalchemy import Integer
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from pydantic import BaseModel
+from sqlalchemy import Integer, ForeignKey
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from database.db_metadata import Base
 
-from app.schemas.orderitem.orderitem import OrderItemModel
+from app.schemas.orderitem.orderitem import OrderItemResponseModel
+from database.models.product import ProductORM
 
 
 class OrderItemORM(Base):
     __tablename__ = "orderitem"
-    
-    id: Mapped[int] = mapped_column(primary_key = True, nullable = False)
-    id_product: Mapped[int] = mapped_column(Integer)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
+    order_id: Mapped[int] = mapped_column(Integer, ForeignKey("order.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(Integer, ForeignKey("product.id"), nullable=False)
     count_product: Mapped[int] = mapped_column(Integer)
 
     order: Mapped["OrderORM"] = relationship("OrderORM", back_populates="order_items")
+    product: Mapped["ProductORM"] = relationship("ProductORM")
 
-    def get_schema(self):
-        return OrderItemModel.from_orm(self)
+    def get_schema(self) -> BaseModel:
+        return OrderItemResponseModel.from_orm(self)

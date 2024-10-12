@@ -15,7 +15,7 @@ class IUnitOfWork(ABC):
 
     order: Type[OrderRepository]
     product: Type[ProductRepository]
-    orderitem: Type[OrderItemRepository]
+    order_item: Type[OrderItemRepository]
 
     @abstractmethod
     def __init__(self):
@@ -48,8 +48,7 @@ class UnitOfWork:
 
         self.order = OrderRepository(self.session)
         self.product = ProductRepository(self.session)
-        self.orderitem = OrderItemRepository(self.session)
-
+        self.order_item = OrderItemRepository(self.session)
 
     async def __aexit__(self, exc_type, exc, tb):
         if exc_type is None:

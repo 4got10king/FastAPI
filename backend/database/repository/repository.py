@@ -67,8 +67,12 @@ class SQLAlchemyRepository(AbstractRepository):
         res = res.scalar_one().get_schema()
         return res
 
-    async def delete(self, **filter_by) -> None:
-        stmt = delete(self.model).filter_by(**filter_by).returning(literal_column("*"))
+    async def delete_by_id(self, **filter_by) -> None:
+        stmt = (
+            delete(self.model)
+            .where(self.model.id == filter_by["id"])
+            .returning(literal_column("*"))
+        )
         await self.session.execute(stmt)
 
     async def soft_delete(self, id: int) -> int:
@@ -82,9 +86,7 @@ class SQLAlchemyRepository(AbstractRepository):
         return result.rowcount
 
     async def get_by_id(self, id: int) -> ORMType:
-        print("start")
         t = await self.session.get(self.model, id)
-        print("finish")
         return t
 
     async def get_count_by_filters(self, **filter_by) -> int:
